@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'models/produit.dart';
+import 'page_details_produit.dart';
 
 /// Page principale qui affichera la liste des produits.
 class ListProduits extends StatelessWidget {
@@ -25,9 +26,38 @@ class ListProduits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // L'affichage de la liste sera ajouté à l'étape 5.
     return Scaffold(
       appBar: AppBar(title: const Text("Liste de Produits")),
+      body: ListView.builder(
+        itemCount: produits.length,
+        itemBuilder: (context, index) {
+          final produit = produits[index];
+          // Chaque produit est affiché dans une Card
+          return Card(
+            elevation: 3,
+            margin: const EdgeInsets.all(10),
+            child: ListTile(
+              title: Text(
+                produit.nom,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text("${produit.prix} \$"),
+              trailing: ElevatedButton(
+                child: const Text("Voir"),
+                onPressed: () {
+                  // Navigation vers la page Détails en passant le produit sélectionné
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsProduit(produit: produit),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
